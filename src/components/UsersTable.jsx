@@ -1,6 +1,18 @@
 import React from 'react';
 
-const UsersTable = () => {
+const UsersTable = ({ users }) => {
+  const usersTable = users.map((user, index) => {
+    return (
+      <tr key={`user-${index}`}>
+        <td>{user.name}</td>
+        <td>{user.date}</td>
+        <td>{user.city}</td>
+        <td>{user.adress}</td>
+        <td>{user.phone}</td>
+      </tr>
+    );
+  });
+
   return (
     <table>
       <tr>
@@ -10,13 +22,8 @@ const UsersTable = () => {
         <th>Adress</th>
         <th>Phone</th>
       </tr>
-      <tr>
-        <td>fa</td>
-        <td>1.1.1059</td>
-        <td>chis</td>
-        <td>munc</td>
-        <td>697745</td>
-      </tr>
+
+      {usersTable}
     </table>
   );
 };

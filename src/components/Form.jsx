@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { DateSelect } from 'components';
+import * as dataActions from '../actions/dataActions';
+import { randomString } from '../helpers/helpers';
 
 class Form extends Component {
   state = {
@@ -8,7 +11,6 @@ class Form extends Component {
     city: '',
     adress: '',
     phone: '',
-    formErrors: {name: '', city: '', adress: '', phone: ''},
     nameValid: false,
     cityValid: false,
     adressValid: false,
@@ -28,7 +30,6 @@ class Form extends Component {
   }
 
   validateField = (fieldName, value) => {
-    let fieldValidationErrors = this.state.formErrors;
     let nameValid = this.state.nameValid;
     let cityValid = this.state.cityValid;
     let adressValid = this.state.adressValid;
@@ -37,27 +38,21 @@ class Form extends Component {
     switch(fieldName) {
       case 'name':
         nameValid = value.length > 0 && value.length < 100;
-        fieldValidationErrors.name = nameValid ? '' : 'Поле обязательно для заполнения и должно быть меньше 100 символов';
         break;
       case 'city':
         cityValid = value.length >= 1;
-        fieldValidationErrors.city = cityValid ? '' : ' Поле обязательно для заполнения';
         break;
       case 'adress':
         adressValid = value.length >= 1;
-        fieldValidationErrors.adress = adressValid ? '' : ' Поле обязательно для заполнения';
         break;
       case 'phone':
         phoneValid = value.length >= 1;
-        fieldValidationErrors.adress = phoneValid ? '' : 'Поле обязательно для заполнения';
         break;
-
       default:
         break;
     }
     this.setState(
       {
-        formErrors: fieldValidationErrors,
         nameValid,
         cityValid,
         adressValid,
@@ -76,7 +71,7 @@ class Form extends Component {
   }
 
   errorClass = (error) => {
-     return(error.length === 0 ? '' : 'error');
+     return(!error ? '' : 'error');
   }
 
   onChangeDay = (e) => {
@@ -93,36 +88,62 @@ class Form extends Component {
 
   handleKeyDown = (event) => {
     const { which } = event;
-    if(!this.keyCodes.some((keyCode) => keyCode === which)) {
+    if (!this.keyCodes.some((keyCode) => keyCode === which)) {
       event.preventDefault();
     }
   }
 
+  onSubmit = (e) => {
+    e.preventDefault();
+
+    const userData = {};
+    userData.id = randomString(8);
+    userData.name = this.state.name;
+    userData.date = this.state.date;
+    userData.city = this.state.city;
+    userData.adress = this.state.adress;
+    userData.phone = this.state.phone;
+
+    this.props.addUser(userData);
+    this.setState({
+      name: '',
+      date: '1.1.1950',
+      city: '',
+      adress: '',
+      phone: '',
+      nameValid: false,
+      cityValid: false,
+      adressValid: false,
+      phoneValid: false,
+      formValid: false,
+    });
+  }
+
   render() {
     return (
-      <form action="">
+      <form onSubmit={this.onSubmit} action="">
         <div className="input-wrap">
           <label>Введите ФИО *</label>
-          <input className={this.errorClass(this.state.formErrors.name)} onChange={this.onChange} name="name" type="text" />
+          <input value={this.state.name} className={this.errorClass(!this.state.nameValid)} onChange={this.onChange} name="name" type="text" />
         </div>  
         <DateSelect onChangeDay={this.onChangeDay} onChangeMonth={this.onChangeMonth} onChangeYear={this.onChangeYear} />
         <div className="input-wrap">
           <label>Укажите город проживания *</label>
-          <input className={this.errorClass(this.state.formErrors.city)} onChange={this.onChange} name="city" type="text" />
+          <input value={this.state.city} className={this.errorClass(!this.state.cityValid)} onChange={this.onChange} name="city" type="text" />
         </div>   
         <div className="input-wrap">
           <label>Укажите адрес проживания *</label>
-          <input className={this.errorClass(this.state.formErrors.adress)} onChange={this.onChange} name="adress" type="text" />
+          <input value={this.state.adress} className={this.errorClass(!this.state.adressValid)} onChange={this.onChange} name="adress" type="text" />
         </div> 
         <div className="input-wrap">
           <label>Укажите свой номер телефона *</label>
-          <input className={this.errorClass(this.state.formErrors.phone)} onKeyDown={this.handleKeyDown} onChange={this.onChange} name="phone" type="text" />
+          <input value={this.state.phone} className={this.errorClass(!this.state.phoneValid)} onKeyDown={this.handleKeyDown} onChange={this.onChange} name="phone" type="text" />
         </div>   
-        <button disabled={!this.state.formValid} type="submit">submit</button>
+        <button disabled={!this.state.formValid} type="submit">Add user</button>
         <p>* Обязательные поля</p>
       </form>
     );
   }
 }
 
-export default Form;
+export default connect(null, dataActions)(Form);

@@ -1,11 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Form, UsersTable } from 'components';
 
-const IndexPage = () => (
+const IndexPage = ({ users }) => (
   <div className="index-page">
     <Form />
-    <UsersTable />
+    <UsersTable users={users} />
   </div>
 );
 
-export default IndexPage;
+export default connect(state =>({
+  users: state.dataReducer.users,
+}), null)(IndexPage);

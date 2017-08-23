@@ -1,1 +1,1 @@
-export const SET_DATA = "SET_DATA"; 
+export const ADD_USER = "ADD_USER"; 

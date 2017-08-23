@@ -1,9 +1,9 @@
 import * as types from 'constants/dataTypes';
 import axios from 'axios';
 
-function setData(data) {
+export function addUser(data) {
   return {
-    type: types.SET_DATA,
+    type: types.ADD_USER,
     payload: data,
   };
 }

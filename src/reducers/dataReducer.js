@@ -1,15 +1,17 @@
 import * as types from 'constants/dataTypes';
+import * as helpers from '../helpers/helpers';
 
 const initialState = {
-  data: [],
+  users: [],
+  user: {},
 };
 
 export default function dataReducer(state = initialState, action) {
   switch (action.type) {
-    case types.REFRESH: {
+    case types.ADD_USER: {
       return {
         ...state,
-        data: refreshData(action.payload.query.results.rate),
+        users: helpers.addUser(state.users, action.payload),
       };
     }
     default: {
