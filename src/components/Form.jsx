@@ -6,11 +6,11 @@ import { randomString } from '../helpers/helpers';
 
 class Form extends Component {
   state = {
-    name: '',
-    date: '1.1.1950',
-    city: '',
-    adress: '',
-    phone: '',
+    name: this.props.user.name || '',
+    date: this.props.user.date || '1.1.1950',
+    city: this.props.user.city || '',
+    adress: this.props.user.adress || '',
+    phone: this.props.user.phone || '',
     nameValid: false,
     cityValid: false,
     adressValid: false,
@@ -70,10 +70,6 @@ class Form extends Component {
     });
   }
 
-  errorClass = (error) => {
-     return(!error ? '' : 'error');
-  }
-
   onChangeDay = (e) => {
     this.setState({ date: e.target.value + '.' });
   }
@@ -95,16 +91,19 @@ class Form extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
+      const userData = {};
+      userData.id = randomString(8);
+      userData.name = this.state.name;
+      userData.date = this.state.date;
+      userData.city = this.state.city;
+      userData.adress = this.state.adress;
+      userData.phone = this.state.phone;
 
-    const userData = {};
-    userData.id = randomString(8);
-    userData.name = this.state.name;
-    userData.date = this.state.date;
-    userData.city = this.state.city;
-    userData.adress = this.state.adress;
-    userData.phone = this.state.phone;
-
-    this.props.addUser(userData);
+    if (this.props.updateUserSubmit) {
+      this.props.updateUserSubmit(userData, this.props.id)
+    } else {
+      this.props.addUser(userData);
+    }
     this.setState({
       name: '',
       date: '1.1.1950',
@@ -120,26 +119,27 @@ class Form extends Component {
   }
 
   render() {
+    const btnValue = this.props.user.id ? 'Update user' : "Add user"
     return (
       <form onSubmit={this.onSubmit} action="">
         <div className="input-wrap">
           <label>Введите ФИО *</label>
-          <input value={this.state.name} className={this.errorClass(!this.state.nameValid)} onChange={this.onChange} name="name" type="text" />
+          <input value={this.state.name} onChange={this.onChange} name="name" type="text" />
         </div>  
         <DateSelect onChangeDay={this.onChangeDay} onChangeMonth={this.onChangeMonth} onChangeYear={this.onChangeYear} />
         <div className="input-wrap">
           <label>Укажите город проживания *</label>
-          <input value={this.state.city} className={this.errorClass(!this.state.cityValid)} onChange={this.onChange} name="city" type="text" />
+          <input value={this.state.city} onChange={this.onChange} name="city" type="text" />
         </div>   
         <div className="input-wrap">
           <label>Укажите адрес проживания *</label>
-          <input value={this.state.adress} className={this.errorClass(!this.state.adressValid)} onChange={this.onChange} name="adress" type="text" />
+          <input value={this.state.adress} onChange={this.onChange} name="adress" type="text" />
         </div> 
         <div className="input-wrap">
           <label>Укажите свой номер телефона *</label>
-          <input value={this.state.phone} className={this.errorClass(!this.state.phoneValid)} onKeyDown={this.handleKeyDown} onChange={this.onChange} name="phone" type="text" />
+          <input value={this.state.phone} onKeyDown={this.handleKeyDown} onChange={this.onChange} name="phone" type="text" />
         </div>   
-        <button disabled={!this.state.formValid} type="submit">Add user</button>
+        <button disabled={!this.state.formValid} className="submit" type="submit">{btnValue}</button>
         <p>* Обязательные поля</p>
       </form>
     );

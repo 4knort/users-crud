@@ -5,7 +5,7 @@ import { Form, UsersTable } from 'components';
 
 const IndexPage = ({ users, deleteUser }) => (
   <div className="index-page">
-    <Form />
+    <Form  user={{}} />
     <UsersTable onClick={deleteUser} users={users} />
   </div>
 );

@@ -1,13 +1,14 @@
 import React, { PropTypes } from 'react';
 import { Route, IndexRoute, Router } from 'react-router';
 
-import { IndexPage } from 'pages';
+import { IndexPage, UpdatePage } from 'pages';
 import { App } from 'components';
 
 const AppRouter = ({ history }) => (
   <Router history={history}>
     <Route path="/" component={App}>
       <IndexRoute component={IndexPage} />
+      <Route path="user/:id" component={UpdatePage} />
     </Route>
   </Router>
 );
