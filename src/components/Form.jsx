@@ -16,6 +16,8 @@ class Form extends Component {
     formValid: false,
   }
 
+  keyCodes = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 107, 13, 190, 8, 107, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105];
+
   onChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -89,8 +91,14 @@ class Form extends Component {
     this.setState({ date: this.state.date + e.target.value });
   }
 
+  handleKeyDown = (event) => {
+    const { which } = event;
+    if(!this.keyCodes.some((keyCode) => keyCode === which)) {
+      event.preventDefault();
+    }
+  }
+
   render() {
-    console.log(this.state)
     return (
       <form action="">
         <div className="input-wrap">
@@ -108,7 +116,7 @@ class Form extends Component {
         </div> 
         <div className="input-wrap">
           <label>Укажите свой номер телефона *</label>
-          <input className={this.errorClass(this.state.formErrors.phone)} onChange={this.onChange} name="phone" type="text" />
+          <input className={this.errorClass(this.state.formErrors.phone)} onKeyDown={this.handleKeyDown} onChange={this.onChange} name="phone" type="text" />
         </div>   
         <button disabled={!this.state.formValid} type="submit">submit</button>
         <p>* Обязательные поля</p>
