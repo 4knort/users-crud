@@ -1,9 +1,10 @@
 import React from 'react';
-import { Form } from 'components';
+import { Form, UsersTable } from 'components';
 
 const IndexPage = () => (
   <div className="index-page">
     <Form />
+    <UsersTable />
   </div>
 );
 
