@@ -1,6 +1,6 @@
 import React from 'react';
 
-const UsersTable = ({ users }) => {
+const UsersTable = ({ users, onClick }) => {
   const usersTable = users.map((user, index) => {
     return (
       <tr key={`user-${index}`}>
@@ -9,6 +9,9 @@ const UsersTable = ({ users }) => {
         <td>{user.city}</td>
         <td>{user.adress}</td>
         <td>{user.phone}</td>
+        <td>
+          <button onClick={() => onClick(user.id)}>delete</button>
+        </td>
       </tr>
     );
   });
@@ -21,6 +24,7 @@ const UsersTable = ({ users }) => {
         <th>City</th>
         <th>Adress</th>
         <th>Phone</th>
+        <th>delete</th>
       </tr>
 
       {usersTable}

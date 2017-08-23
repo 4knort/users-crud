@@ -18,3 +18,13 @@ export function addUser(arr, obj) {
   array.push(obj);
   return array;
 }
+
+export function deleteUser(arr, id) {
+  const array = arr.filter(user => {
+    if (user.id !== id) {
+      return user;
+    }
+  });
+
+  return array
+}

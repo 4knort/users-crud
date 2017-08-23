@@ -1,14 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import * as dataActions from '../actions/dataActions';
 import { Form, UsersTable } from 'components';
 
-const IndexPage = ({ users }) => (
+const IndexPage = ({ users, deleteUser }) => (
   <div className="index-page">
     <Form />
-    <UsersTable users={users} />
+    <UsersTable onClick={deleteUser} users={users} />
   </div>
 );
 
 export default connect(state =>({
   users: state.dataReducer.users,
-}), null)(IndexPage);
+}), dataActions)(IndexPage);

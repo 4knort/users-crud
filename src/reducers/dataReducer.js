@@ -14,6 +14,13 @@ export default function dataReducer(state = initialState, action) {
         users: helpers.addUser(state.users, action.payload),
       };
     }
+    case types.DELETE_USER: {
+      return {
+        ...state,
+        users: helpers.deleteUser(state.users, action.payload),
+      };
+    }
+
     default: {
       return state;
     }

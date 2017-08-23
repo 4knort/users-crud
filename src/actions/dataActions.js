@@ -7,3 +7,10 @@ export function addUser(data) {
     payload: data,
   };
 }
+
+export function deleteUser(id) {
+  return {
+    type: types.DELETE_USER,
+    payload: id,
+  };
+}
