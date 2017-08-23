@@ -20,6 +20,12 @@ export default function dataReducer(state = initialState, action) {
         users: helpers.deleteUser(state.users, action.payload),
       };
     }
+    case types.UPDATE_USER: {
+      return {
+        ...state,
+        users: helpers.updateUser(state.users, action.payload.id, action.payload.data),
+      };
+    }
 
     default: {
       return state;

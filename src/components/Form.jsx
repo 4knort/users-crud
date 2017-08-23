@@ -11,11 +11,11 @@ class Form extends Component {
     city: this.props.user.city || '',
     adress: this.props.user.adress || '',
     phone: this.props.user.phone || '',
-    nameValid: false,
-    cityValid: false,
-    adressValid: false,
-    phoneValid: false,
-    formValid: false,
+    nameValid: this.props.user.name ? true : false,
+    cityValid: this.props.user.city ? true : false,
+    adressValid: this.props.user.adress ? true : false,
+    phoneValid: this.props.user.phone ? true : false,
+    formValid: this.props.user ? true : false,
   }
 
   keyCodes = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 107, 13, 190, 8, 107, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105];
@@ -91,16 +91,16 @@ class Form extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-      const userData = {};
-      userData.id = randomString(8);
-      userData.name = this.state.name;
-      userData.date = this.state.date;
-      userData.city = this.state.city;
-      userData.adress = this.state.adress;
-      userData.phone = this.state.phone;
+    const userData = {};
+    userData.id = randomString(8);
+    userData.name = this.state.name;
+    userData.date = this.state.date;
+    userData.city = this.state.city;
+    userData.adress = this.state.adress;
+    userData.phone = this.state.phone;
 
     if (this.props.updateUserSubmit) {
-      this.props.updateUserSubmit(userData, this.props.id)
+      this.props.updateUserSubmit(userData, this.props.id);
     } else {
       this.props.addUser(userData);
     }
@@ -119,7 +119,8 @@ class Form extends Component {
   }
 
   render() {
-    const btnValue = this.props.user.id ? 'Update user' : "Add user"
+    const btnValue = this.props.user.id ? 'Update user' : 'Add user';
+
     return (
       <form onSubmit={this.onSubmit} action="">
         <div className="input-wrap">

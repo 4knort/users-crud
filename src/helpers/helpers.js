@@ -26,5 +26,23 @@ export function deleteUser(arr, id) {
     }
   });
 
-  return array
+  return array;
+}
+
+export function updateUser(arr, id, data) {
+  const array = arr.map(user => {
+    if(user.id === id) {
+      user.name = data.name;
+      user.date = data.date;
+      user.city = data.city;
+      user.adress = data.adress;
+      user.phone = data.phone;
+
+      return user;
+    }
+
+    return user;
+  });
+  
+  return array;
 }

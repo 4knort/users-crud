@@ -14,3 +14,11 @@ export function deleteUser(id) {
     payload: id,
   };
 }
+
+export function updateUser(data, id) {
+  return {
+    type: types.UPDATE_USER,
+    payload: {data, id},
+  };
+}
+
