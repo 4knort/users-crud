@@ -3,7 +3,7 @@ import React from 'react';
 const DateSelect = ({ onChangeDay, onChangeMonth, onChangeYear }) => {
   return (
     <div className="input-wrap">
-      <span>Укажите дату рождения</span>
+      <label>Укажите дату рождения *</label>
       <select onChange={onChangeDay} name="" id="">
          <option value="1">1</option>
          <option value="2">2</option>

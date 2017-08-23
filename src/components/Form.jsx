@@ -8,22 +8,85 @@ class Form extends Component {
     city: '',
     adress: '',
     phone: '',
+    formErrors: {name: '', city: '', adress: '', phone: ''},
+    nameValid: false,
+    cityValid: false,
+    adressValid: false,
+    phoneValid: false,
+    formValid: false,
   }
 
   onChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    this.setState({[name]: value});
+    this.setState(
+      { [name]: value }, 
+      () => { this.validateField(name, value) }
+    );
+  }
+
+  validateField = (fieldName, value) => {
+    let fieldValidationErrors = this.state.formErrors;
+    let nameValid = this.state.nameValid;
+    let cityValid = this.state.cityValid;
+    let adressValid = this.state.adressValid;
+    let phoneValid = this.state.phoneValid;
+
+    switch(fieldName) {
+      case 'name':
+        nameValid = value.length > 0 && value.length < 100;
+        fieldValidationErrors.name = nameValid ? '' : 'Поле обязательно для заполнения и должно быть меньше 100 символов';
+        break;
+      case 'city':
+        cityValid = value.length >= 1;
+        fieldValidationErrors.city = cityValid ? '' : ' Поле обязательно для заполнения';
+        break;
+      case 'adress':
+        adressValid = value.length >= 1;
+        fieldValidationErrors.adress = adressValid ? '' : ' Поле обязательно для заполнения';
+        break;
+      case 'phone':
+        phoneValid = value.length >= 1;
+        fieldValidationErrors.adress = phoneValid ? '' : 'Поле обязательно для заполнения';
+        break;
+
+      default:
+        break;
+    }
+    this.setState(
+      {
+        formErrors: fieldValidationErrors,
+        nameValid,
+        cityValid,
+        adressValid,
+        phoneValid,
+      }, this.validateForm);
+  }
+
+  validateForm = () => {
+    this.setState({
+      formValid: 
+        this.state.nameValid &&
+        this.state.cityValid &&
+        this.state.adressValid &&
+        this.state.phoneValid,
+    });
+  }
+
+  errorClass = (error) => {
+     return(error.length === 0 ? '' : 'error');
   }
 
   onChangeDay = (e) => {
-    this.setState({date: e.target.value + '.'})
+    this.setState({ date: e.target.value + '.' });
   }
+
   onChangeMonth = (e) => {
-    this.setState({date: this.state.date + e.target.value + '.'})
+    this.setState({ date: this.state.date + e.target.value + '.' });
   }
+
   onChangeYear = (e) => {
-    this.setState({date: this.state.date + e.target.value})
+    this.setState({ date: this.state.date + e.target.value });
   }
 
   render() {
@@ -31,25 +94,26 @@ class Form extends Component {
     return (
       <form action="">
         <div className="input-wrap">
-          <span>Введите ФИО</span>
-          <input onChange={this.onChange} name="name" type="text"/>
+          <label>Введите ФИО *</label>
+          <input className={this.errorClass(this.state.formErrors.name)} onChange={this.onChange} name="name" type="text" />
         </div>  
         <DateSelect onChangeDay={this.onChangeDay} onChangeMonth={this.onChangeMonth} onChangeYear={this.onChangeYear} />
         <div className="input-wrap">
-          <span>Укажите город проживания</span>
-          <input onChange={this.onChange} name="city" type="text"/>
+          <label>Укажите город проживания *</label>
+          <input className={this.errorClass(this.state.formErrors.city)} onChange={this.onChange} name="city" type="text" />
         </div>   
         <div className="input-wrap">
-          <span>Укажите адрес проживания</span>
-          <input onChange={this.onChange} name="adress" type="text"/>
+          <label>Укажите адрес проживания *</label>
+          <input className={this.errorClass(this.state.formErrors.adress)} onChange={this.onChange} name="adress" type="text" />
         </div> 
         <div className="input-wrap">
-          <span>Укажите свой номер телефона</span>
-          <input onChange={this.onChange} name="phone" type="text"/>
+          <label>Укажите свой номер телефона *</label>
+          <input className={this.errorClass(this.state.formErrors.phone)} onChange={this.onChange} name="phone" type="text" />
         </div>   
-        <button type="submit">submit</button>
+        <button disabled={!this.state.formValid} type="submit">submit</button>
+        <p>* Обязательные поля</p>
       </form>
-    )
+    );
   }
 }
 
