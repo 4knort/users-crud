@@ -1,9 +1,9 @@
 import React from 'react';
-import {  } from 'components';
+import { Form } from 'components';
 
 const IndexPage = () => (
   <div className="index-page">
-
+    <Form />
   </div>
 );
 
