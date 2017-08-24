@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 
 const UsersTable = ({ users, onClick }) => {
-  const usersTable = null;
+  let usersTable = null;
   if (users) {
 
     usersTable = users.map((user, index) => {
