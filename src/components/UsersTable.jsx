@@ -15,14 +15,14 @@ const UsersTable = ({ users, onClick }) => {
             <button onClick={() => onClick(user.id)}>delete</button>
           </td>
           <td>
-            <Link to={`/user/${user.id}`}>Details</Link>
+            <Link to={`/user/${user.id}`}>Update</Link>
           </td>
         </tr>
       );
     } else {
       return null;
     }
-    
+
   });
 
   return (

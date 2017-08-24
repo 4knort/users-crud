@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { hashHistory } from 'react-router';
 import { DateSelect } from 'components';
 import * as dataActions from '../actions/dataActions';
 import { randomString } from '../helpers/helpers';
@@ -12,10 +13,10 @@ class Form extends Component {
     adress: this.props.user.adress || '',
     phone: this.props.user.phone || '',
     nameValid: this.props.user.name ? true : false,
-    cityValid: this.props.user.city ? true : false,
-    adressValid: this.props.user.adress ? true : false,
-    phoneValid: this.props.user.phone ? true : false,
-    formValid: this.props.user ? true : false,
+    cityValid: this.props.user.name ? true : false,
+    adressValid: this.props.user.name ? true : false,
+    phoneValid: this.props.user.name ? true : false,
+    formValid: this.props.user.name ? true : false,
   }
 
   keyCodes = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 107, 13, 190, 8, 107, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105];
@@ -101,6 +102,7 @@ class Form extends Component {
 
     if (this.props.updateUserSubmit) {
       this.props.updateUserSubmit(userData, this.props.id);
+      hashHistory.push('/');
     } else {
       this.props.addUser(userData);
     }
