@@ -3,11 +3,13 @@ import { Link } from 'react-router';
 
 const UsersTable = ({ users, onClick }) => {
   const usersTable = users.map((user, index) => {
+    const date = `${user.date.day}.${user.date.month}.${user.date.year}`;
+    
     if (user) {
       return (
         <tr key={`user-${index}`}>
           <td>{user.name}</td>
-          <td>{user.date}</td>
+          <td>{date}</td>
           <td>{user.city}</td>
           <td>{user.adress}</td>
           <td>{user.phone}</td>

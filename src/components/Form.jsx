@@ -8,7 +8,7 @@ import { randomString } from '../helpers/helpers';
 class Form extends Component {
   state = {
     name: this.props.user.name || '',
-    date: this.props.user.date || '1.1.1950',
+    date: this.props.user.date || { day: '01', month: '01', year: '1950' },
     city: this.props.user.city || '',
     adress: this.props.user.adress || '',
     phone: this.props.user.phone || '',
@@ -71,18 +71,6 @@ class Form extends Component {
     });
   }
 
-  onChangeDay = (e) => {
-    this.setState({ date: e.target.value + '.' });
-  }
-
-  onChangeMonth = (e) => {
-    this.setState({ date: this.state.date + e.target.value + '.' });
-  }
-
-  onChangeYear = (e) => {
-    this.setState({ date: this.state.date + e.target.value });
-  }
-
   handleKeyDown = (event) => {
     const { which } = event;
     if (!this.keyCodes.some((keyCode) => keyCode === which)) {
@@ -108,7 +96,7 @@ class Form extends Component {
     }
     this.setState({
       name: '',
-      date: '1.1.1950',
+      date: { day: '01', month: '01', year: '1950' },
       city: '',
       adress: '',
       phone: '',
@@ -120,16 +108,21 @@ class Form extends Component {
     });
   }
 
+  setDate = (name, value) => {
+    const date = this.state.date;
+    date[name] = value;
+
+    this.setState({ date });
+  }
   render() {
     const btnValue = this.props.user.id ? 'Update user' : 'Add user';
-
     return (
       <form onSubmit={this.onSubmit} action="">
         <div className="input-wrap">
           <label>Введите ФИО *</label>
           <input value={this.state.name} onChange={this.onChange} name="name" type="text" />
         </div>  
-        <DateSelect onChangeDay={this.onChangeDay} onChangeMonth={this.onChangeMonth} onChangeYear={this.onChangeYear} />
+        <DateSelect date={this.state.date} setDate={this.setDate} onChangeDay={this.onChangeDay} onChangeMonth={this.onChangeMonth} onChangeYear={this.onChangeYear} />
         <div className="input-wrap">
           <label>Укажите город проживания *</label>
           <input value={this.state.city} onChange={this.onChange} name="city" type="text" />
