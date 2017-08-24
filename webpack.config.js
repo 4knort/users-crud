@@ -126,7 +126,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'public'),
     filename: 'bundle.js',
-    publicPath: pagesBuild ? '/testCurrency' : '/',
+    publicPath: pagesBuild ? '/users-crud' : '/',
   },
 
   resolve: {
